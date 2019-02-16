@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,25 +14,38 @@
             height: 100vh;
         }
     </style>
-    
+
 </head>
+
 <body>
-    <button id="btnCounter">+</button>
+    <input id="inputAmount" type="text"></input>
+    <button id="btnAddExpense">+</button>
     <script>
-        // Take a number which starts from zero
-        let counter = 0;
-        // function to increment the number
-        function counterIncrement() {
-            // on every click increment a number
-            counter = counter + 1;
-            console.log(counter);
+
+        // init value of expense at 0
+        let totalExpense = 0;
+
+        // onButtonClick add inputAmount to totalExpense
+        function addExpenseToTotal() {
+            // read value from inputAmount
+            const inputElement = document.querySelector("#inputAmount");
+            const textAmount = inputElement.value;
+
+            // convert it to number
+            const expense = parseInt(textAmount, 10);
+
+            // add that value to totalExpense
+            totalExpense = totalExpense + expense;
+            console.log({ totalExpense })
         }
+
         // Get the btn element
-        const element = document.querySelector("#btnCounter");
+        const element = document.querySelector("#btnAddExpense");
 
         // Listen to click event
-        element.addEventListener("click", counterIncrement, false);
-        
+        element.addEventListener("click", addExpenseToTotal, false);
+
     </script>
 </body>
+
 </html>
