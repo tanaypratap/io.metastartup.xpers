@@ -112,10 +112,7 @@
 				const someText = `Total: ${totalExpense}`;
 				headingEl.textContent = someText;
 
-				const allExpenseHTML = allExpenses.map(expense => createListItem(expense));
-
-				const joinedAllExpenseHTML = allExpenseHTML.join('');
-				expenseTableEl.innerHTML = joinedAllExpenseHTML;
+				renderList(allExpenses);
 			}
 			// getting the btn element
 			const element = document.querySelector('#btnAddExpense');
@@ -135,16 +132,17 @@
 
 			// Delete Items
 			function deleteItem(dateValue) {
-				console.log('delete item was called', dateValue);
-
-				for (let i = 0; i < allExpenses.length; i++) {
-					if (allExpenses[i].moment.valueOf() === dateValue) {
-						console.log('Item Found', allExpenses[i]);
-					}
-				}
+				const newArr = allExpenses.filter(expense => expense.moment.valueOf() !== dateValue);
+				renderList(newArr);
 			}
 
 			// View Layer
+			function renderList(arrOfList) {
+				const allExpenseHTML = arrOfList.map(expense => createListItem(expense));
+				const joinedAllExpenseHTML = allExpenseHTML.join('');
+				expenseTableEl.innerHTML = joinedAllExpenseHTML;
+			}
+
 			function createListItem({ desc, amount, moment }) {
 				return `
                     <li class="list-group-item d-flex justify-content-between">
