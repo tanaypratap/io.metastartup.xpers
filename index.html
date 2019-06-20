@@ -83,7 +83,7 @@
 			headingEl.textContent = totalExpense;
 
 			// allExpenses at one place
-			const allExpenses = [];
+			let allExpenses = [];
 
 			// onButtonClick add inputAmount to totalExpense
 			function addExpenseToTotal() {
@@ -134,6 +134,7 @@
 			function deleteItem(dateValue) {
 				const newArr = allExpenses.filter(expense => expense.moment.valueOf() !== dateValue);
 				renderList(newArr);
+				allExpenses = [...newArr];
 			}
 
 			// View Layer
