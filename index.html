@@ -83,11 +83,11 @@
 			headingEl.textContent = totalExpense;
 
 			// allExpenses at one place
-			const allExpenses = [];
+			var allExpenses = [];
 
 			// onButtonClick add inputAmount to totalExpense
 			function addExpenseToTotal() {
-				const expenseItem = {};
+				var expenseItem = {};
 
 				// read value from inputAmount
 				const textAmount = inputElement.value;
@@ -111,7 +111,7 @@
 				// set the heading element to totalExpense
 				const someText = `Total: ${totalExpense}`;
 				headingEl.textContent = someText;
-
+                                
 				renderList(allExpenses);
 			}
 			// getting the btn element
@@ -133,6 +133,7 @@
 			// Delete Items
 			function deleteItem(dateValue) {
 				const newArr = allExpenses.filter(expense => expense.moment.valueOf() !== dateValue);
+				allExpenses = [...newArr];
 				renderList(newArr);
 			}
 
