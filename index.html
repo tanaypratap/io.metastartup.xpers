@@ -79,11 +79,8 @@
 			// init value of expense at 0
 			let totalExpense = 0;
 
-			// set the heading element to total Expense
-			headingEl.textContent = totalExpense;
-
 			// allExpenses at one place
-			const allExpenses = [];
+			let allExpenses = [];
 
 			// onButtonClick add inputAmount to totalExpense
 			function addExpenseToTotal() {
@@ -108,6 +105,13 @@
 				// add that value to totalExpense
 				totalExpense = totalExpense + expense;
 
+				// making blank after adding the elemen
+				inputElement.value = '';
+    			inputDescEl.value = '';
+
+				// set the heading element to total Expense
+				headingEl.textContent = totalExpense;
+
 				// set the heading element to totalExpense
 				const someText = `Total: ${totalExpense}`;
 				headingEl.textContent = someText;
@@ -131,9 +135,15 @@
 			}
 
 			// Delete Items
-			function deleteItem(dateValue) {
+			function deleteItem(dateValue, amount) {
 				const newArr = allExpenses.filter(expense => expense.moment.valueOf() !== dateValue);
-				renderList(newArr);
+                // subtract the totalexpense when it is deleted that value to totalExpense
+                totalExpense = totalExpense - amount;
+                // set the heading element to total Expense
+                const someText = `Total: ₹ ${totalExpense}`;
+                headingEl.textContent = someText;
+                renderList(newArr);
+				allExpenses = [...newArr];
 			}
 
 			// View Layer
@@ -145,7 +155,7 @@
 
 			function createListItem({ desc, amount, moment }) {
 				return `
-                    <li class="list-group-item d-flex justify-content-between">
+					<li class="list-group-item d-flex justify-content-between">
 							<div class="d-flex flex-column">
 								${desc}
 								<small class="text-muted">${getDateString(moment)}</small>
@@ -155,15 +165,15 @@
 									${amount}
 								</span>
 								<button 
-                                    type="button" 
-                                    class="btn btn-outline-danger btn-sm"
-                                    onclick="deleteItem(${moment.valueOf()})"
-                                    >
+									type="button" 
+									class="btn btn-outline-danger btn-sm"
+									onclick="deleteItem(${moment.valueOf()}, ${amount})"
+									>
 									<i class="fas fa-trash-alt"></i>
 								</button>
 							</div>
 						</li>
-                    `;
+					`;
 			}
 		</script>
 	</body>
