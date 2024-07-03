@@ -85,6 +85,9 @@
 			// allExpenses at one place
 			const allExpenses = [];
 
+			//creata a mutable array to facilitate multiple deletions
+			let mutableAllExpense = [];
+
 			// onButtonClick add inputAmount to totalExpense
 			function addExpenseToTotal() {
 				const expenseItem = {};
@@ -94,6 +97,10 @@
 
 				// read the desc from inputDesc
 				const textDesc = inputDescEl.value;
+
+				//clear input fields
+				inputElement.value = "";
+				inputDescEl.value = "";
 
 				// convert it to number
 				const expense = parseInt(textAmount, 10);
@@ -105,14 +112,16 @@
 
 				allExpenses.push(expenseItem);
 
+				//update mutable array as well
+				mutableAllExpense.push(expenseItem);
+
 				// add that value to totalExpense
 				totalExpense = totalExpense + expense;
 
-				// set the heading element to totalExpense
-				const someText = `Total: ${totalExpense}`;
-				headingEl.textContent = someText;
+				renderTotalExpense(totalExpense);
 
-				renderList(allExpenses);
+				//call renderList function using mutable expense so that if the user adds something after deleting something else, we dont show the orignal list but last updated list
+				renderList(mutableAllExpense);
 			}
 			// getting the btn element
 			const element = document.querySelector('#btnAddExpense');
@@ -132,8 +141,22 @@
 
 			// Delete Items
 			function deleteItem(dateValue) {
-				const newArr = allExpenses.filter(expense => expense.moment.valueOf() !== dateValue);
+
+				//use mutable array instead of original array
+				const newArr = mutableAllExpense.filter(expense => expense.moment.valueOf() !== dateValue);
+
 				renderList(newArr);
+
+				//update the total expense
+				let amountToBeSubtracted = mutableAllExpense.find(expense => expense.moment.valueOf() === dateValue);
+
+				totalExpense = totalExpense - amountToBeSubtracted.amount;
+				
+				//render new total expense
+				renderTotalExpense(totalExpense);
+
+				//now update mutable array
+				mutableAllExpense = [...newArr];
 			}
 
 			// View Layer
@@ -164,6 +187,15 @@
 							</div>
 						</li>
                     `;
+			}
+
+			//function to render total expense
+			function renderTotalExpense(latestTotalExpense) {
+
+				// set the heading element to totalExpense
+				const someText = `Total: ${latestTotalExpense}`;
+				headingEl.textContent = someText;
+
 			}
 		</script>
 	</body>
